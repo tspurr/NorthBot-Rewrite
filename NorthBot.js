@@ -20,15 +20,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
  */
-const path = require("path")
+const path = require("path");
 const Discord = require("discord.js");  //Imports the discord.js package
 const fs = require("fs").promises;
 const config = require("./config.json");  //Loads the config file for the bot
-const PREFIX = config.prefix
-const TOKEN = config.TOKEN
+const PREFIX = config.prefix;
+const TOKEN = config.TOKEN;
 const client = new Discord.Client();  //Initiates the discord bot
+const GuildModel = require("./database/models/Guild")
 
+client.mongoose = require("./database/mongoose")
 client.commands = new Map();
+client.mongoose.init();
 client.login(TOKEN);
 
 client.on("message", message => {
@@ -57,7 +60,6 @@ client.on("message", message => {
     }
 
 });
-
 
   /*#####################################################
   #                 Command Handler                     #
