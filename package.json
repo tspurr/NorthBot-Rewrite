@@ -1,0 +1,7 @@
+{
+  "name": "NorthBot-Rewrite",
+  "version": "0.1.0",
+  "dependencies": {
+    "discord.js": "^12.3.1"
+  }
+}
