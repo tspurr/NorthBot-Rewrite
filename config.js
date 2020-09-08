@@ -1,13 +1,14 @@
 module.exports = {
     prefix: ".",
+    owner: "218164992216793088",
 
     // The default guildInfo document for MongoDB
     defaultGuild: {
-        _id: 1003,
         guildName: "",
-        guildOwner: "",
-        modRole: "Moderator",
-        adminRole: "Administrator",
+        guildID: "",
+        guildOwnerTag: "",
+        guildOwnerID: "",
+        staffRoles: "Administrator",
         modChat: "",
         streamChannel: "",
         numMembers: 0,

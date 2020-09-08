@@ -21,5 +21,8 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
  */
 module.exports = async (client, oldMember, newMember) => {
+    if (oldMember.bot)
+        return;
+
     console.log(`@<${member.id}> has updated their profile!`);
 };

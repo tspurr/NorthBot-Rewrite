@@ -20,22 +20,60 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
  */
-const { Schema, model } = require("mongoose")
+const mongoose = require('mongoose');
+const {defaultGuild: defaults} = require("../../config");
 
-const Guild = new Schema({
-    _id: Number,        // There shouldn't be another file in this collection
-    guildName: String,  // Guild name so user can tell what database they are in
-    guildOwner: String, // For easy reference later on
+const Guild = new mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
+    guildName: {
+        type: String,
+        default: defaults.guildName
+    }, // Guild name so user can tell what database they are in
+    /*guildID: {
+        type: String,
+        default: defaults.guildID
+    },*/
+    guildOwnerID: {
+        type: String,
+        default: defaults.guildOwnerID
+    }, // For easy reference later on
+    guildOwnerTag: {
+        type: String,
+        default: defaults.guildOwnerTag
+    },
     staffRoles: [{role: String}],   // Want to list for access to website and such
-    modChat: String,    // A channel for bot reporting commands and stuff
-    streamChannel: String,  // Channel to announce streams in
-    numMembers: Number, // Number of members in the guild
-    memberRole: String, // The base member role if set by the owner/admin
-
-    defaultRole: Boolean,   // Turns default role on/off
-    reputation: Boolean,    // Turns the reputation system on and off
-    profanity: Boolean, // Turns the profanity filter on messages on and off
-    announceStreams: Boolean  // Turn the stream announcements on and of
+    modChat: {
+        type: String,
+        default: defaults.modChat
+    }, // A channel for bot reporting commands and stuff
+    streamChannel: {
+        type: String,
+        default: defaults.streamChannel
+    }, // Channel to announce streams in
+    numMembers: {
+        type: Number,
+        default: defaults.numMembers
+    }, // Number of members in the guild
+    memberRole: {
+        type: String,
+        default: defaults.memberRole
+    }, // The base member role if set by the owner/admin
+    defaultRole: {
+        type: Boolean,
+        default: defaults.defaultRole
+    }, // Turns default role on/off
+    reputation: {
+        type: Boolean,
+        default:  defaults.reputation
+    }, // Turns the reputation system on and off
+    profanity: {
+        type: Boolean,
+        default: defaults.profanity
+    }, // Turns the profanity filter on messages on and off
+    announceStreams: {
+        type: Boolean,
+        default: defaults.announceStreams
+    } // Turn the stream announcements on and of
 });
 
-module.exports = model('Guild', Guild, 'guildInfo');
+module.exports = mongoose.model('Guild', Guild, 'guildInfo');

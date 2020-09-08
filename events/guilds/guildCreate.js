@@ -21,5 +21,17 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
  */
 module.exports = async (client, guild) => {
-    console.log(`Joined ${guild.name}`)
+    try {
+        const newGuild = {
+            guildName: guild.name, //Assigning guild name
+            guildID: guild.id,
+            guildOwnerTag: guild.owner.user.tag, //Assigning the ownertag
+            guildOwnerID: guild.owner.id, //Assigning the ownerid
+            numMembers: guild.memberCount //giving the member count
+        };
+
+        await client.createGuild(newGuild);
+    } catch (error) {
+        console.error(error);
+    }
 };

@@ -20,20 +20,70 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
  */
-
+const mongoose = require('mongoose');
+const { Guild } = require('./models');
 
 module.exports = client => {
 
-    const client.getGuild = async (guild) => {
+    // Getting guild information
+    client.getGuild = async (guild) => {
+        let guildID = guild.id;
+        let guildDB = mongoose.connection.useDb(guildID);
+        let data = await guildDB.Guild.findOne({_id: guild.id});
 
+        // If there is a document
+        if(data)
+            return data;
+        // If there is not a document return the default
+        else
+            return client.config.defaultGuild;
     };
 
-    const client.updateGuild = async (guild, settings) => {
+    // Updating guild settings
+    client.updateGuild = async (guild, settings) => {
+        let data = await client.getGuild(guild);
 
+        if (typeof data !== 'object') data = {};
+        for (const key in settings) {
+            if (settings.hasOwnProperty(key)) {
+                if(data[key] !== settings[key])
+                    data[key] = settings[key];
+                else
+                    return
+            }
+        }
+
+        console.log(`Guild "${data.guildName}" (${data._id} updated settings ${Object.keys(settings)}`);
+        return await data.updateOne(settings);
     };
 
-    const client.createGuild = async (settings) => {
+    // When adding a guild to documents
+    client.createGuild = async (settings) => {
+        let guildID = settings._id;
+        let guildDB = mongoose.connection.useDb(guildID);
 
+        let defaults = Object.assign({_id: mongoose.Types.ObjectId()}, client.config.defaultGuild)
+        let merged = Object.assign(defaults, settings);
+
+        const newGuild = await guildDB.model(Guild, merged);
+        return newGuild.save()
+            .then(g => {
+                console.log(`Default settings saved for guild "${g.guildName}" (${g._id})`)
+        })
     };
 
+    // Cleaning and hiding things for live editing if I want it
+    client.clean = async (client, text) => {
+        if (text && text.constructor.name === 'Promise')
+            text = await text;
+        if (typeof evaled !== 'string')
+            text = require('util').inspect(text, {depth: 1});
+
+        text = text
+            .replace(/`/g, `'` + String.fromCharCode(8203))
+            .replace(/@/g, `@` + String.fromCharCode(8203))
+            .replace(client.token, 'token.replaced')
+
+        return text;
+    }
 }

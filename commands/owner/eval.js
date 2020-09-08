@@ -20,32 +20,35 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
  */
-const mongoose = require('mongoose'); //Importing the mongoose library
-const config = require("../config.json"); //Grabbing the config file so we don't have private things on github
 
-module.exports = {
-    init: () => {
-        const DBOptions = {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        };
-
-        mongoose.connect(config.MongoURL, DBOptions); //Connecting to the server
-        mongoose.set("useFindAndModify", false);
-        mongoose.promise = global.Promise;
-
-        //When the bot successfully connects to the server
-        mongoose.connection.on('connected', () => {
-            console.log(`Mongoose Connected Successful!`)
-        });
-
-        //If the bot encounters any error trying to connect to the mongoDB
-        mongoose.connection.on('err', err => {
-            console.log(`Mongoose Connection Error: \n${err.stack}`);
-        });
-
-        mongoose.connection.on('disconnect', () => {
-            console.log(`Mongoose Disconnected!`)
-        });
+module.exports.run = async (client, message, args) => {
+    if (message.author.id !== client.config.owner) {
+        return message.reply('You do not have permissions to use this command!');
     }
+
+    const code = args
+
+    try{
+        const evaled = eval(code);
+        const clean = await client.clean(client, evaled);
+
+        const MAX_CHARS = 3 + 2 +clean.length + 3;
+        if(MAX_CHARS > 2000) {
+            return message.channel.send(
+                `Output exceeded 2000 characters. Exported to the attached file`, {
+                    files: [{
+                        attachment: Buffer.from(clean),
+                        name: `output.txt`
+                    }]
+                }
+            );
+        }
+        return message.channel.send(clean, {code: `js`});
+    } catch (err) {
+        await message.channel.send(await client.clean(client, err), {code: `bash`});
+    }
+};
+
+module.exports.help = {
+    name: 'eval'
 };

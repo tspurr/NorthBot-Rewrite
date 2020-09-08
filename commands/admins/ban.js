@@ -20,7 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
  */
-module.exports.run = async(client, message, args) => {
+module.exports.run = async (client, message, args) => {
     //Checks if the user has permission to run command
     if(!message.member.hasPermission(`BAN_MEMBERS`))
         message.channel.send("You do not have permissions to run this command");
@@ -57,4 +57,11 @@ module.exports.run = async(client, message, args) => {
 
     }
 
+};
+
+module.exports.help = {
+    name: "ban",
+    category: "admin",
+    description: "bans a member of the guild",
+    usage: ".ban @Member"
 }

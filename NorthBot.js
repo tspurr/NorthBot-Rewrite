@@ -29,6 +29,7 @@ const config = require("./config.json");  //Loads the config file for the bot
 const PREFIX = config.prefix;
 const TOKEN = config.TOKEN;
 const client = new Discord.Client();  //Initiates the discord bot
+require('./database/functions')(client);
 
 //MongoDB Variables
 client.mongoose = require("./database/mongoose");
@@ -36,7 +37,7 @@ client.mongoose.init();
 
 client.login(TOKEN); //Discord Bot login
 client.commands = new Map(); //Key Value Pairs for mapping commands for the bot
-client.config = require()
+client.config = require('./config'); //Assigns the config file to the bot so it's easier to call in other functions when passing bot through
 
 client.on("message", async (message) => {}
 
