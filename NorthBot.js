@@ -24,17 +24,19 @@ const path = require("path");
 const Discord = require("discord.js");  //Imports the discord.js package
 const fs = require("fs").promises;
 const config = require("./config.json");  //Loads the config file for the bot
+
+// Variable Declaration
 const PREFIX = config.prefix;
 const TOKEN = config.TOKEN;
 const client = new Discord.Client();  //Initiates the discord bot
+
+//MongoDB Variables
 const GuildModel = require("./database/models/Guild")
+const { connect } = require("mongoose")
 
-client.mongoose = require("./database/mongoose")
-client.commands = new Map();
-client.mongoose.init();
-client.login(TOKEN);
+client.commands = new Map(); //Key Value Pairs for mapping commands for the bot
 
-client.on("message", message => {
+client.on("message", async (message) => {
     //If the messages is from the bot return
     if (message.author.bot)
         return;
@@ -116,3 +118,18 @@ client.on("message", message => {
 
     }
 })();
+
+  /*#####################################################
+  #                 MongoDB Connection                  #
+  #####################################################*/
+(async () => {
+    await connect(config.MongoURL, { //Mongo Connection
+        useNewUrlParser: true,
+        useFindAndModify: false,
+        useUnifiedTopology: true //Get an error if I don't have this
+    })
+        .then(() => console.log('MongoDB connected...')) //Printing connection
+        .catch(err => console.log(err)); //Logging errors
+
+    return client.login(TOKEN); //Discord Bot login
+})()

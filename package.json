@@ -4,5 +4,8 @@
   "dependencies": {
     "discord.js": "^12.3.1",
     "mongoose": "^5.10.3"
+  },
+  "devDependencies": {
+    "mongodb": "^3.6.1"
   }
 }
