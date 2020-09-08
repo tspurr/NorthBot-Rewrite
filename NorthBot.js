@@ -31,37 +31,16 @@ const TOKEN = config.TOKEN;
 const client = new Discord.Client();  //Initiates the discord bot
 
 //MongoDB Variables
-const GuildModel = require("./database/models/Guild")
-const { connect } = require("mongoose")
+client.mongoose = require("./database/mongoose");
+client.mongoose.init();
 
+client.login(TOKEN); //Discord Bot login
 client.commands = new Map(); //Key Value Pairs for mapping commands for the bot
+client.config = require()
 
-client.on("message", async (message) => {
-    //If the messages is from the bot return
-    if (message.author.bot)
-        return;
-    //If the messages is a DM return
-    if(message.channel.type === "dm")
-        return;
+client.on("message", async (message) => {}
 
-    //If the messages is a command needing to be run
-    if (message.content.startsWith(PREFIX)) {
-        // Getting the command name from the messages
-        let cmdName = message.content.substring(message.content.indexOf(PREFIX) + 1).split(new RegExp(/\s+/)).shift();
-
-        //Getting the command args, but not parsing them yet
-        let cmdArgs = message.content.substring(message.content.indexOf(" ") + 1)
-
-        //If the command exists then we pass
-        if(client.commands.get(cmdName)) {
-            client.commands.get(cmdName).run(client, message, cmdArgs);
-        }
-        else
-            message.channel.send("Command does not exist!");
-
-    }
-
-});
+);
 
   /*#####################################################
   #                 Command Handler                     #
@@ -118,18 +97,3 @@ client.on("message", async (message) => {
 
     }
 })();
-
-  /*#####################################################
-  #                 MongoDB Connection                  #
-  #####################################################*/
-(async () => {
-    await connect(config.MongoURL, { //Mongo Connection
-        useNewUrlParser: true,
-        useFindAndModify: false,
-        useUnifiedTopology: true //Get an error if I don't have this
-    })
-        .then(() => console.log('MongoDB connected...')) //Printing connection
-        .catch(err => console.log(err)); //Logging errors
-
-    return client.login(TOKEN); //Discord Bot login
-})()

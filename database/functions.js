@@ -20,31 +20,20 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
  */
-const config = require("../config.json");
-const PREFIX = config.prefix;
 
-module.exports = async (client, message) => {
-  //If the messages is from the bot return
-  if (message.author.bot)
-    return;
-  //If the messages is a DM return
-  if(message.channel.type === "dm")
-    return;
 
-  //If the messages is a command needing to be run
-  if (message.content.startsWith(PREFIX)) {
-    // Getting the command name from the messages
-    let cmdName = message.content.substring(message.content.indexOf(PREFIX) + 1).split(new RegExp(/\s+/)).shift();
+module.exports = client => {
 
-    //Getting the command args, but not parsing them yet
-    let cmdArgs = message.content.substring(message.content.indexOf(" ") + 1)
+    const client.getGuild = async (guild) => {
 
-    //If the command exists then we pass
-    if(client.commands.get(cmdName)) {
-      client.commands.get(cmdName).run(client, message, cmdArgs);
-    }
-    else
-      return message.reply("Command does not exist!");
+    };
 
-  }
-};
+    const client.updateGuild = async (guild, settings) => {
+
+    };
+
+    const client.createGuild = async (settings) => {
+
+    };
+
+}

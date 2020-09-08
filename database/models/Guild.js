@@ -23,11 +23,19 @@ DEALINGS IN THE SOFTWARE.
 const { Schema, model } = require("mongoose")
 
 const Guild = new Schema({
-    id: Number,
-    prefix: {
-        default: '#',
-        type: String
-    }
+    _id: Number,        // There shouldn't be another file in this collection
+    guildName: String,  // Guild name so user can tell what database they are in
+    guildOwner: String, // For easy reference later on
+    staffRoles: [{role: String}],   // Want to list for access to website and such
+    modChat: String,    // A channel for bot reporting commands and stuff
+    streamChannel: String,  // Channel to announce streams in
+    numMembers: Number, // Number of members in the guild
+    memberRole: String, // The base member role if set by the owner/admin
+
+    defaultRole: Boolean,   // Turns default role on/off
+    reputation: Boolean,    // Turns the reputation system on and off
+    profanity: Boolean, // Turns the profanity filter on messages on and off
+    announceStreams: Boolean  // Turn the stream announcements on and of
 });
 
 module.exports = model('Guild', Guild, 'guildInfo');

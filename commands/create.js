@@ -19,28 +19,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
- */
+*/
 const GuildModel = require("../database/models/Guild");
 const config = require("../config.json");
-const MongoClient = require("mongodb").MongoClient;
-const mongo = new MongoClient(config.MongoURL, {useNewUrlParser: true});
 
 module.exports.run = async(client, message, args) => {
     let guildID = message.guild.id; //Getting guild ID
 
-    MongoClient.connect(config.MongoURL, async function(err, db) {
-        if (err)
-            throw err;
-        let dataBase = db.db(guildID);
-        dbo.createCollection("customers", async function(err, res) {
-            if (err)
-                throw err;
-            console.log("Collection created!");
-            db.close();
-        });
-    });
-
     const doc = new GuildModel({id: guildID});
-    await doc.save();
+    await doc.save()
     message.reply('Made New Document');
 }
