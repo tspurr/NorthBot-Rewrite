@@ -21,5 +21,5 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
  */
 module.exports = async (client, guild) => {
-    console.log(`Guild ${guild.name} updated!`)
+    console.log(`Guild ${guild.name} updated!`);
 };

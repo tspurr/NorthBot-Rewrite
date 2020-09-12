@@ -22,4 +22,5 @@ DEALINGS IN THE SOFTWARE.
  */
 module.exports = async (client, reaction, user) => {
   console.log(`${user} reacted with ${reaction}`);
+  // TODO check if the message is a reaction menu, and if so give the user the role associated with the emoji
 };

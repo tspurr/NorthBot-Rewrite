@@ -20,7 +20,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
  */
-module.exports = async (client, guild) => {
-    console.log(`Left ${guild.name}`)
-    // TODO delete server database and all information inside of it
+module.exports = async (client, channel) => {
+  console.log(`New channel ${channel.name} created in guild ${channel.guild.name}`);
+  // TODO create a new document in channelInfo in guild database
+  // TODO report to MODCHAT
 };

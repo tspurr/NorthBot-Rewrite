@@ -31,6 +31,8 @@ module.exports = async (client, message) => {
   if(message.channel.type === "dm")
     return;
 
+  //TODO make it so the member gets an update to their document in the server
+
   //If the messages is a command needing to be run
   if (message.content.startsWith(PREFIX)) {
     // Getting the command name from the messages

@@ -4,6 +4,7 @@ module.exports = {
 
     // The default guildInfo document for MongoDB
     defaultGuild: {
+        _id: "",
         guildName: "",
         guildID: "",
         guildOwnerTag: "",
@@ -11,11 +12,23 @@ module.exports = {
         staffRoles: "Administrator",
         modChat: "",
         streamChannel: "",
-        numMembers: 0,
+        numMembers: "",
         memberRole: "",
         defaultRole: false,
         reputation: false,
         profanity: true,
         announceStreams: false
+    },
+
+    // The default member document for MongoDB
+    defaultMember: {
+        _id: "",
+        memberName: "",
+        memberID: "",
+        badMessageID: [],
+        badMessage: [],
+        warnings: 0,
+        numMessages: 0,
+        reputation: 0
     }
 };

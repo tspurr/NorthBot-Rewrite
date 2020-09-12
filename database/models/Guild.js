@@ -24,7 +24,10 @@ const mongoose = require('mongoose');
 const {defaultGuild: defaults} = require("../../config");
 
 const Guild = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+    _id: {
+        type: String,
+        default: ""
+    },
     guildName: {
         type: String,
         default: defaults.guildName
@@ -75,5 +78,6 @@ const Guild = new mongoose.Schema({
         default: defaults.announceStreams
     } // Turn the stream announcements on and of
 });
+let guildDB = mongoose.connection.useDb();
 
-module.exports = mongoose.model('Guild', Guild, 'guildInfo');
+module.exports = guildDB.model('Guild', Guild, 'guildInfo');

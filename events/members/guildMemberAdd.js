@@ -21,6 +21,19 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
  */
 module.exports = async (client, member) => {
-    console.log(`@<${member.id}> has joined the server!`);
-    // TODO send this message to MODCHAT
+    try {
+        const newMember = {
+            _id: member.id,
+            memberName: member.name, //Assigning member name
+            memberID: member.id,
+        };
+
+        await client.createMember(newMember, member.guild);
+    } catch (error) {
+        console.error(error);
+    }
+
+    // TODO send new member a DM welcoming them to the guild
+    // TODO if defaultRole is set in the guild add it to the member
+    // TODO send update message to MODCHAT
 };

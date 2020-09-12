@@ -24,5 +24,5 @@ module.exports = async (client, oldMember, newMember) => {
     if (oldMember.bot)
         return;
 
-    console.log(`@<${member.id}> has updated their profile!`);
+    console.log(`@<${newMember.id}> has updated their profile!`);
 };

@@ -23,6 +23,7 @@ DEALINGS IN THE SOFTWARE.
 module.exports = async (client, guild) => {
     try {
         const newGuild = {
+            _id: guild.id,
             guildName: guild.name, //Assigning guild name
             guildID: guild.id,
             guildOwnerTag: guild.owner.user.tag, //Assigning the ownertag

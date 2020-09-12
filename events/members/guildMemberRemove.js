@@ -22,5 +22,7 @@ DEALINGS IN THE SOFTWARE.
  */
 module.exports = async (client, member) => {
     console.log(`${member} has left the server!`);
+
+    // TODO remove the member document from memberInfo for the server
     // TODO send this message to MODCHAT
 };

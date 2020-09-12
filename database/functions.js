@@ -25,11 +25,15 @@ const { Guild } = require('./models');
 
 module.exports = client => {
 
+    /*##########################################
+    #                  Guild                   #
+    ##########################################*/
+
     // Getting guild information
     client.getGuild = async (guild) => {
         let guildID = guild.id;
         let guildDB = mongoose.connection.useDb(guildID);
-        let data = await guildDB.Guild.findOne({_id: guild.id});
+        let data = await guildDB.collection('guildInfo').findOne({_id: guild.id});
 
         // If there is a document
         if(data)
@@ -43,7 +47,8 @@ module.exports = client => {
     client.updateGuild = async (guild, settings) => {
         let data = await client.getGuild(guild);
 
-        if (typeof data !== 'object') data = {};
+        if (typeof data !== 'object')
+            data = {};
         for (const key in settings) {
             if (settings.hasOwnProperty(key)) {
                 if(data[key] !== settings[key])
@@ -60,17 +65,61 @@ module.exports = client => {
     // When adding a guild to documents
     client.createGuild = async (settings) => {
         let guildID = settings._id;
-        let guildDB = mongoose.connection.useDb(guildID);
+        let guildDB = mongoose.connection.useDb(guildID); //Connect to the specific guild database
 
-        let defaults = Object.assign({_id: mongoose.Types.ObjectId()}, client.config.defaultGuild)
+        let defaults = Object.assign({_id: guildID}, client.config.defaultGuild)
         let merged = Object.assign(defaults, settings);
 
-        const newGuild = await guildDB.model(Guild, merged);
-        return newGuild.save()
-            .then(g => {
-                console.log(`Default settings saved for guild "${g.guildName}" (${g._id})`)
-        })
+        guildDB.collection('guildInfo').insertOne(merged); // Don't need the ./Models folder, but I'll leave for now
     };
+
+    /*##########################################
+    #                 Member                   #
+    ##########################################*/
+
+    // Getting a specific member document from memberInfo when called
+    client.getMember = async (member) => {
+
+    };
+
+    // When a member of the guild updates their info the relevant info in the database will be updated too
+    client.updateMember = async (member, settings) => {
+
+    };
+
+    // When a new member joins the guild a new document is created for them
+    client.createMember = async (settings, guild) => {
+        let memberID = settings._id;
+        let guildDB = mongoose.connection.useDb(guild.id);
+
+        let defaults = Object.assign({_id: memberID}, client.config.defaultMember)
+        let merged = Object.assign(defaults, settings);
+
+        guildDB.collection('memberInfo').insertOne(merged);
+    };
+
+    /*##########################################
+    #                 Channel                  #
+    ##########################################*/
+
+    // Getting a specific channel from the collection channelData, if none return default
+    client.getChannel = async (channel) => {
+
+    };
+
+    //When a channel is updated in a server the document will be updated too
+    client.updateChannel = async (channel, settings) => {
+
+    };
+
+    //When a channel is added to the server the default document will be create in channelData collection
+    client.createChannel = async (settings, guild) => {
+
+    };
+
+    /*##########################################
+    #                  Misc                    #
+    ##########################################*/
 
     // Cleaning and hiding things for live editing if I want it
     client.clean = async (client, text) => {
